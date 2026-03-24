@@ -201,7 +201,7 @@ void ABlasterCharacter::PlayHitReactMontage()
 
 	if (AnimInstance && HitReactMontage)
 	{
-		AnimInstance->Montage_Play(FireWeaponMontage);//先把 Montage 激活，让它处于"运行中"状态
+		AnimInstance->Montage_Play(HitReactMontage);//先把 Montage 激活，让它处于"运行中"状态
 		FName SectionName;
 		SectionName = ("FromFront");
 		AnimInstance->Montage_JumpToSection(SectionName);//再跳到正确的 Section
