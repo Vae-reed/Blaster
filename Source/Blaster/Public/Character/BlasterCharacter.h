@@ -21,9 +21,6 @@ public:
 	virtual void PostInitializeComponents() override; //在该 Actor 挂载的所有组件（Components）都已经完成初始化之后，执行自定义的后续设置逻辑
 	void PlayFireMontage(bool bAiming);
 
-	UFUNCTION(NetMulticast, Unreliable)
-	void MulticastHit();
-
 	virtual void OnRep_ReplicatedMovement() override;
 protected:
 	virtual void BeginPlay() override;
@@ -43,6 +40,11 @@ protected:
 	void SimProxiesTurn();
 	virtual void Jump() override;
 	void PlayHitReactMontage();
+
+	//OnTakeAnyDamage 委托的回调,有特殊签名
+	UFUNCTION()
+	void ReceiveDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, class AController* InstigatorController, AActor* DamageCauser);
+	void UpdateHUDHealth();
 
 	//TObjectPtr: 增加在SHIPPING发布之前的安全性
 	//想处理什么Action，就响应什么动作，不太关心动作是由什么按键触发的

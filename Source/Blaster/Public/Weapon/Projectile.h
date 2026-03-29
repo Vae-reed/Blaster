@@ -27,6 +27,10 @@ protected:
 		UPrimitiveComponent* OtherComp,//被击中的 Actor 的具体组件，比如角色的胶囊体、墙壁的静态网格体。
 		FVector NormalImpulse,//碰撞时的法线冲量，表示碰撞力的方向和大小
 		const FHitResult& Hit); //完整的碰撞信息结构体，包含所有碰撞细节：
+
+
+	UPROPERTY(EditAnywhere)
+	float Damage = 20.f;
 private:
 	UPROPERTY(EditAnywhere)
 	class UBoxComponent* CollisionBox;
