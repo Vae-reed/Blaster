@@ -12,6 +12,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Blaster/Blaster.h"
+#include "Blaster/Public/PlayerController/BlasterPlayerController.h"
 
 ABlasterCharacter::ABlasterCharacter()
 {
@@ -72,6 +73,7 @@ void ABlasterCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME_CONDITION(ABlasterCharacter, InterpAO_Yaw, COND_SimulatedOnly); // InterpAO_Yaw 的计算只在权威端或本地控制端进行，复制只在模拟端进行
 	DOREPLIFETIME_CONDITION(ABlasterCharacter, StartingAimRotation, COND_SimulatedOnly); // StartingAimRotation 的计算只在权威端或本地控制端进行，复制只在模拟端进行
 	DOREPLIFETIME_CONDITION(ABlasterCharacter, TurningInPlace, COND_SimulatedOnly);	// TurningInPlace 的复制只在模拟端进行
+	DOREPLIFETIME(ABlasterCharacter, Health);
 }
 
 void ABlasterCharacter::OnRep_ReplicatedMovement()
@@ -84,6 +86,12 @@ void ABlasterCharacter::OnRep_ReplicatedMovement()
 void ABlasterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	BlasterPlayerController = Cast<ABlasterPlayerController>(Controller);
+	if (BlasterPlayerController)
+	{
+		BlasterPlayerController->SetHUDHealth(Health, MaxHealth);
+	}
 
 	//在这里添加映射，确保角色已经完全由控制器拥有，避免在复杂网络环境下GetController() 有时会返回空
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
@@ -440,6 +448,11 @@ void ABlasterCharacter::HideCameraIfCharacterClose()
 			Combat->EquippedWeapon->GetWeaponMesh()->bOwnerNoSee = false;
 		}
 	}
+
+}
+
+void ABlasterCharacter::OnRep_Health()
+{
 
 }
 

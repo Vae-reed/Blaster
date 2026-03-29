@@ -27,6 +27,17 @@ class BLASTER_API ABlasterHUD : public AHUD
 	
 public:
 	virtual void DrawHUD() override;
+
+	//Widget 的类信息，在蓝图里配置，运行时用它创建实例
+	UPROPERTY(EditAnywhere, Category = "Player Stats")
+	TSubclassOf<class UUserWidget> CharacterOverlayClass;
+
+	//Widget 的实例，由 AddCharacterOverlay 创建后持有引用
+	class UCharacterOverlay* CharacterOverlay;
+protected:
+	virtual void BeginPlay() override;
+	void AddCharacterOverlay();
+
 private:
 	FHUDPackage HUDPackage;
 

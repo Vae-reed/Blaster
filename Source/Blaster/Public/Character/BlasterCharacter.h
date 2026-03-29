@@ -147,6 +147,20 @@ private:
 	float ProxyYaw;
 	float TimeSinceLastMovementReplication;
 	float CalculateSpeed();
+
+	/*
+	角色血量
+	*/
+
+	float MaxHealth = 100.f;
+
+	UPROPERTY(ReplicatedUsing = OnRep_Health, VisibleAnywhere,Category = "Player Stats")
+	float Health = 100.f;
+
+	UFUNCTION()
+	void OnRep_Health();
+
+	class ABlasterPlayerController* BlasterPlayerController;
 public:
 	void SetOverlappingWeapon(AWeapon* Weapon);//设置正在重叠的武器
 	bool IsWeaponEquipped();
